@@ -8,10 +8,11 @@ import java.time.Duration;
 public class RentalService {
     private Double pricePerDay;
     private Double pricePerHour;
-    private BrazilTaxService taxService;
+
+    private TaxService taxService;
 
 
-    public RentalService(Double pricePerDay, Double pricePerHour, BrazilTaxService taxService) {
+    public RentalService(Double pricePerDay, Double pricePerHour, TaxService taxService) {
         this.pricePerDay = pricePerDay;
         this.pricePerHour = pricePerHour;
         this.taxService = taxService;
@@ -33,7 +34,7 @@ public class RentalService {
         this.pricePerHour = pricePerHour;
     }
 
-    public BrazilTaxService getTaxService() {
+    public TaxService getTaxService() {
         return taxService;
     }
 
@@ -46,10 +47,10 @@ public class RentalService {
         double hours = Math.ceil(minutes / 60);
         double basicPayment;
 
-        if (hours <= 12.0){
+        if (hours <= 12.0) {
             basicPayment = pricePerHour * hours;
         } else {
-            basicPayment = pricePerDay * (hours /24);
+            basicPayment = pricePerDay * (hours / 24);
         }
 
         double tax = taxService.tax(basicPayment);
