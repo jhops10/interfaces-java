@@ -1,22 +1,33 @@
 package application;
 
-import model.entities.AbstractShape;
-import model.entities.Circle;
-import model.entities.Rectangle;
-import model.entities.Shape;
-import model.enums.Color;
+import model.entities.Employee;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Program {
     public static void main(String[] args) {
 
-        AbstractShape s1 = new Circle(Color.BLACK, 2.0);
-        AbstractShape s2 = new Rectangle(Color.WHITE, 3.0, 4.0);
-
-        System.out.println("Circle Color:  " + s1.getColor());
-        System.out.println("Circle Area: " + String.format("%.3f",s1.area()));
-
-        System.out.println("Rectangle Color: " + s2.getColor());
-        System.out.println("Rectangle Area: " + String.format("%.3f", s2.area()));
+        List<Employee> list = new ArrayList<>();
+        String path = "E:\\DEVELOPMENT\\Java\\Projetos\\in.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String employeeCsv = br.readLine();
+            while (employeeCsv != null) {
+                String[] fields = employeeCsv.split(",");
+                list.add(new Employee(fields[0],Double.parseDouble(fields[1])));
+                employeeCsv = br.readLine();
+            }
+            Collections.sort(list);
+            for (Employee emp : list) {
+                System.out.println(emp.getName() + ", " + emp.getSalary());
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
     }
 }
